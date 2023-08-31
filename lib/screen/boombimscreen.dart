@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class BoombimScreen extends StatefulWidget {
   const BoombimScreen({Key? key}) : super(key: key);
 
@@ -13,6 +14,8 @@ class _BoombimScreenState extends State<BoombimScreen> {
   String timeCurrentDay="10:00 ~ 18:00";
   int totalTableNumber=30;
   int occupyTableNumber=10;
+  bool isVisible=false;
+
   void increaseProgress(){
     setState(() {     //setState를 이용해서 상태변경을 알리고 UI를 다시 그려줌.
       percentValue+=0.1;  //별표시를 클릭시에 혼잡도가 증가함.
@@ -84,7 +87,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                        Text('유캔두잇 세종대점',style: TextStyle( fontFamily: 'Inter_Bold',fontSize: 26,
+                        Text('유캔두잇 세종대점',style: TextStyle( fontFamily: 'IBM_Bold',fontSize: 26,
                          color:Colors.black,fontWeight: FontWeight.w700),
                         ),
                   Text('서울 광진구 능동로 209 세종대학교 광개토관 15층',style: TextStyle(fontSize: 13,
@@ -154,7 +157,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
                       height: size.height*0.03,
 
                     ),
-                    Text("    혼잡도",style: TextStyle(fontSize: 19,fontFamily: "InterSemiBold",
+                    Text("    혼잡도",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
                         color: Colors.black,
                         fontWeight:FontWeight.w600)),
                     Container(
@@ -196,7 +199,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
                   height: size.height*0.04,
 
                 ),
-                    Text("    영업시간",style: TextStyle(fontSize: 19,fontFamily: "InterSemiBold",
+                    Text("    영업시간",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
                         color: Colors.black,
                         fontWeight:FontWeight.w600)),
                     Container(
@@ -211,12 +214,47 @@ class _BoombimScreenState extends State<BoombimScreen> {
 
                         ),
 
-                        IconButton(onPressed: (){}, icon: Icon(Icons.expand_more))
+                        IconButton(onPressed: () {
+                         showModalBottomSheet(context: context,
+                             builder: (BuildContext context){
+                           return Container(
+                             height: 300, // 모달 높이 크기
+                             margin: const EdgeInsets.only(
+                               left: 25,
+                               right: 25,
+                               bottom: 40,
+                             ), // 모달 좌우하단 여백 크기
+                             decoration: const BoxDecoration(
+                               color: Colors.white, // 모달 배경색
+                               borderRadius: BorderRadius.all(
+                                 Radius.circular(20), // 모달 전체 라운딩 처리
+                               ),
+                             ),
+                             child:Center(
+
+                               child:SingleChildScrollView(
+                                   child :DefaultTextStyle(
+                                     child:Text("월:    10AM ~ 6PM\n화:    10AM ~ 6PM\n"
+                                         "수:    10AM ~ 6PM\n목:    10AM ~ 7PM\n금:    10AM ~ 7PM\n토:    10AM ~ 8PM"
+                                         "\n일:    10AM ~ 8PM\n",
+
+
+                                     ),
+                                     style:TextStyle(color: Color(0xff949494) ,fontSize: 18,fontWeight: FontWeight.w500,
+                                     fontFamily: "IBM_Bold"),  )
+                               ),
+                             ),
+                           );
+
+                             },
+                           backgroundColor: Colors.transparent,);
+                        }, icon: Icon(Icons.expand_more))
                       ]
 
 
 
-                    )
+                    ),
+
 ]
                 ),
               ),
@@ -226,11 +264,11 @@ class _BoombimScreenState extends State<BoombimScreen> {
               ),
               Container(
                 width:size.width,
-                height:size.height*0.13,
+                height:size.height*0.1,
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:[
-              Text("    전화번호",style: TextStyle(fontSize: 19,fontFamily: "InterSemiBold",
+              Text("    전화번호",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
                   color: Colors.black,
                   fontWeight:FontWeight.w600)),
               Container(
@@ -250,4 +288,39 @@ class _BoombimScreenState extends State<BoombimScreen> {
       ),
     );
   }
+}
+void showToast(BuildContext context) {
+  OverlayState overlayState = Overlay.of(context);
+
+  OverlayEntry overlayEntry = OverlayEntry(builder: (context) => Positioned(
+      top: MediaQuery.of(context).size.height * 0.5,
+      left: MediaQuery.of(context).size.width * 0.1,
+      right: MediaQuery.of(context).size.width * 0.1,
+      child:ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+      child :Container(
+          color :Colors.white,
+          height :MediaQuery.of(context).size.height *0.3,
+          padding :EdgeInsets.symmetric(horizontal :10),
+          child:Center(
+
+          child:SingleChildScrollView(
+          child :DefaultTextStyle(
+            child:Text("월: 10AM ~ 6PM\n화: 10AM ~ 6PM\n"
+                "수: 10AM ~ 6PM\n목: 10AM ~ 7PM\n금: 10AM ~ 7PM\n토: 10AM ~ 8PM\n일: 10AM ~ 8PM\n",
+
+
+               ),
+            style:TextStyle(color: Color(0xff949494) ,fontSize: 18,fontWeight: FontWeight.w500),  )
+      ),
+          ),
+      ),
+      ),
+  ));
+
+  overlayState.insert(overlayEntry);
+
+  Future.delayed(Duration(seconds :10)).then((_) { // 지정된 시간 후에 자동으로 사라짐
+    overlayEntry.remove();
+  });
 }
