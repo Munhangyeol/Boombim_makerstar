@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "978588878352",
+    "project_id": "boombim-makerstar",
+    "storage_bucket": "boombim-makerstar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978588878352:android:6aed033d8c8c5e9d0a2c95",
+        "android_client_info": {
+          "package_name": "com.example.boombim_makerstar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978588878352-pimrn26vf2rfqm8uag05nvsn4ur0gkvk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHZltK3rSLoN0SMBisA6nimBhzR5KaDzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "978588878352-pimrn26vf2rfqm8uag05nvsn4ur0gkvk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

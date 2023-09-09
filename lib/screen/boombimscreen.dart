@@ -1,6 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:boombim_makerstar/screen/mainscreen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:boombim_makerstar/firebase_options.dart';
+import 'package:lottie/lottie.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+
 class BoombimScreen extends StatefulWidget {
   const BoombimScreen({Key? key}) : super(key: key);
 
@@ -10,48 +19,162 @@ class BoombimScreen extends StatefulWidget {
 
 class _BoombimScreenState extends State<BoombimScreen> {
   double percentValue=0.5;
-  String phoneNumber="02-1234-5678";
-  String timeCurrentDay="10:00 ~ 18:00";
+  String phoneNumber="전화번호를 불러오는 중입니다!";
+  String timeCurrentDay="영업시간을 불러오는 중입니다!";
   int totalTableNumber=30;
   int occupyTableNumber=10;
   bool isVisible=false;
+  final firestore=FirebaseFirestore.instance;
+
+
+  String url1='aa';
+  String url2='aa';
+  String url3='aa';
+  String caffeName="정보를 불러오는 중입니다!";
+  String caffeAddress="카페 위치을 불러오는 중입니다!";
+
+
+  getData() async{
+
+
+    var a1 = await FirebaseFirestore.instance.collection('ucandoit').doc('photo').get().
+    then((DocumentSnapshot ds){
+      final data =ds.data() as Map<String,dynamic>;
+      setState(() {
+        url1=data["url1"];
+
+      });
+
+    });
+    var a2 = await FirebaseFirestore.instance.collection('ucandoit').doc('photo').get().
+    then((DocumentSnapshot ds){
+      final data =ds.data() as Map<String,dynamic>;
+      setState(() {
+        url2=data["url2"];
+      });
+    });
+    var a3 = await FirebaseFirestore.instance.collection('ucandoit').doc('photo').get().
+    then((DocumentSnapshot ds){
+      final data =ds.data() as Map<String,dynamic>;
+      setState(() {
+        url3=data["url3"];
+      });
+    });
+    var caffe_info = await FirebaseFirestore.instance.collection('ucandoit').doc('caffe_information').get().
+    then((DocumentSnapshot ds){
+      final data =ds.data() as Map<String,dynamic>;
+      setState(() {
+        phoneNumber=data["caffe_phonenumber"];
+        timeCurrentDay=data["caffe_time"];
+        caffeName=data["caffe_name"];
+        caffeAddress=data["caffe_address"];
+
+      });
+    });
+
+
+
+
+  }
+
 
   void increaseProgress(){
     setState(() {     //setState를 이용해서 상태변경을 알리고 UI를 다시 그려줌.
-      percentValue+=0.1;  //별표시를 클릭시에 혼잡도가 증가함.
+      percentValue+=0.1;   //별표시를 클릭시에 혼잡도가 증가함.
       if(percentValue>=1){
         percentValue=0.1;
+
+
+
       }
     });
   }
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+
+    getData();
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SafeArea(
+        child:SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+
         child: Container(
           child: Column(
             children: [
               Container(
 
                 width: size.width,
-                height: size.height * 0.35,
+                height: size.height * 0.33,
                 child: Stack(
                   children: [
-                    SingleChildScrollView(
+                    PageView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
+
                         children: [
-                          Image.asset('assets/images/americano.jpg',
-                              width: size.width, height: size.height * 0.35,
-                          fit: BoxFit.cover,),
-                          Image.asset('assets/images/caffu.jpg',
-                              width: size.width, height: size.height * 0.35),
-                          Image.asset('assets/images/latte.jpg',
-                              width: size.width, height: size.height * 0.35),
+                          SizedBox(
+                            width:size.width,
+                            height: size.height*0.35,
+                            child:Image.network("$url1",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
+                              return Center(
+
+                                child: SizedBox(
+                                  height: size.height * 0.4,
+                                  width: size.width * 0.3,
+                                  child: Lottie.asset(
+                                      'assets/lottie/animation_2.json'),
+
+                                ),
+
+                              );
+                            },
+                              ),
+    ),
+                          SizedBox(
+                              width:size.width,
+                              height: size.height*0.35,
+                              child:Image.network("$url2",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
+                                return Center(
+
+                                  child: SizedBox(
+                                    height: size.height * 0.4,
+                                    width: size.width * 0.3,
+                                    child: Lottie.asset(
+                                        'assets/lottie/animation_2.json'),
+
+                                  ),
+
+                                );
+                              },)
+                          ),
+                          SizedBox(
+                              width:size.width,
+                              height: size.height*0.35,
+                              child:Image.network("$url3",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
+                                return Center(
+
+                                  child: SizedBox(
+                                    height: size.height * 0.4,
+                                    width: size.width * 0.3,
+                                    child: Lottie.asset(
+                                        'assets/lottie/animation_2.json'),
+
+                                  ),
+
+                                );
+                              },)
+                          ),
                         ],
-                      ),
+
                     ),
                     Positioned(
                       left: size.width * 0.02,
@@ -59,7 +182,12 @@ class _BoombimScreenState extends State<BoombimScreen> {
                       bottom: size.height*0.28,
                       child: FloatingActionButton.small(
                         backgroundColor: Color(0xffC7C7C7),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => MainScreen(),
+                          )
+                          );
+                        },
                         child: Icon(Icons.arrow_back),
                       ),
                     ),
@@ -69,7 +197,23 @@ class _BoombimScreenState extends State<BoombimScreen> {
                       bottom: size.height*0.28,
                       child: FloatingActionButton.small(
                         backgroundColor: Color(0xffC7C7C7),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,PageRouteBuilder(
+                            pageBuilder: (context,animation1,animation2)=>MainScreen(),
+                            transitionDuration: Duration(milliseconds: 300),
+                            transitionsBuilder: (context,animation1,animation2,child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: Offset(-1.0, 0.0),
+                                  end: Offset(0.0, 0.0),
+                                ).animate(animation1),
+                                child: child,
+
+                              );
+                            },
+                          )
+                          );
+                        },
                         child: Icon(Icons.home),
                       ),
                     ),
@@ -77,22 +221,30 @@ class _BoombimScreenState extends State<BoombimScreen> {
                 ),
               ),
               Container(
-                height: size.height*0.08,
+                height: 60,
 
                 width: size.width,
                 child:Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[
+                    Container(
+                      width: 1,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                        Text('유캔두잇 세종대점',style: TextStyle( fontFamily: 'IBM_Bold',fontSize: 26,
+                        Text("$caffeName",style: TextStyle( fontFamily: 'IBM_Bold',fontSize: 26,
                          color:Colors.black,fontWeight: FontWeight.w700),
                         ),
-                  Text('서울 광진구 능동로 209 세종대학교 광개토관 15층',style: TextStyle(fontSize: 13,
-                    fontFamily: 'InterSemiBold',color:Color(0xff5E5E5E),fontWeight: FontWeight.w500)
+
+                  Expanded(
+                    child:
+                  Text('$caffeAddress',style: TextStyle(fontSize: 13,
+                    fontFamily: 'IBM_SemiBold',color:Color(0xff5E5E5E),fontWeight: FontWeight.w500)
                   ),
+                  ),
+
 
 
 
@@ -114,6 +266,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
 
 
               ),
+
               Container(
                   width: size.width,
                   height: 0.5,
@@ -139,6 +292,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
                   ],
                 ),
               ),
+
               Container(
                   width: size.width,
                   height: 5,
@@ -148,13 +302,13 @@ class _BoombimScreenState extends State<BoombimScreen> {
               Container(
 
                 width: size.width,
-                height: size.height*0.13,
+                height: 120,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width:size.width,
-                      height: size.height*0.03,
+                      height: size.height*0.04,
 
                     ),
                     Text("    혼잡도",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
@@ -189,8 +343,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
               ),
               Container(
                 width:size.width,
-                height: size.height*0.15,
-
+                height:120,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -264,7 +417,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
               ),
               Container(
                 width:size.width,
-                height:size.height*0.1,
+                height:120,
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:[
@@ -285,9 +438,11 @@ class _BoombimScreenState extends State<BoombimScreen> {
             ],
           ),
         ),
+    ),
       ),
     );
   }
+
 }
 void showToast(BuildContext context) {
   OverlayState overlayState = Overlay.of(context);
@@ -324,3 +479,4 @@ void showToast(BuildContext context) {
     overlayEntry.remove();
   });
 }
+

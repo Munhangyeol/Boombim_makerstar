@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>978588878352-3onbnq3phid7hrsqtn38le51kppc8rra.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.978588878352-3onbnq3phid7hrsqtn38le51kppc8rra</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAA0MNbXhyGHvLpDcjpe-t7_mX6ILn9jI4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>978588878352</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.boombimMakerstar.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>boombim-makerstar</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boombim-makerstar.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:978588878352:ios:b69951b4a2de5de10a2c95</string>
+</dict>
+</plist>
