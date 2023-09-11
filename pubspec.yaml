@@ -37,6 +37,7 @@ dependencies:
   fluttertoast:
   firebase_core: ^2.15.1
   cloud_firestore:
+  firebase_database: ^10.0.15
   animated_splash_screen:
 
 

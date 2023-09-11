@@ -1,15 +1,16 @@
-# boombim_makerstar
+# 붐빔
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## 사장님 모드 UI에 대하여 설명.
 
-A few resources to get you started if this is your first Flutter project:
+기존 어플에 비해 간단하긴 하다.
+사진에 대한 권한 요청과 사진첩 관리에만 신경쓰면 될듯.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![image](https://github.com/csh991414/boombim_mastermode/assets/80662795/40cbbd83-6129-4248-a5c1-4a4f15324c86)
+
+
+
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,

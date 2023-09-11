@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,6 +20,7 @@ class BoombimScreen extends StatefulWidget {
   _BoombimScreenState createState() => _BoombimScreenState();
 }
 
+
 class _BoombimScreenState extends State<BoombimScreen> {
   double percentValue=0.5;
   String phoneNumber="전화번호를 불러오는 중입니다!";
@@ -24,14 +28,15 @@ class _BoombimScreenState extends State<BoombimScreen> {
   int totalTableNumber=30;
   int occupyTableNumber=10;
   bool isVisible=false;
-  final firestore=FirebaseFirestore.instance;
 
-
+  Timer? timer;
   String url1='aa';
   String url2='aa';
   String url3='aa';
   String caffeName="정보를 불러오는 중입니다!";
   String caffeAddress="카페 위치을 불러오는 중입니다!";
+
+  final DatabaseReference _database = FirebaseDatabase.instance.reference();
 
 
   getData() async{
@@ -42,7 +47,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
       final data =ds.data() as Map<String,dynamic>;
       setState(() {
         url1=data["url1"];
-
+        print(" ");
       });
 
     });
@@ -64,38 +69,46 @@ class _BoombimScreenState extends State<BoombimScreen> {
     then((DocumentSnapshot ds){
       final data =ds.data() as Map<String,dynamic>;
       setState(() {
-        phoneNumber=data["caffe_phonenumber"];
+        phoneNumber=data["caffe_phoneNumber"];
         timeCurrentDay=data["caffe_time"];
         caffeName=data["caffe_name"];
         caffeAddress=data["caffe_address"];
 
       });
     });
+// Realtime Database에서 percentValue를 가져오기
+    _database.child('DATA').onValue.listen((event) {
+      final value = event.snapshot.value as int?;
+      if (value != null) {
+        setState(() {
 
-
-
+          if (value != 1) {
+            percentValue -= 0.5;
+          }
+          else{
+            percentValue = 0.5;
+          }
+        });
+      }
+    });
 
   }
 
 
-  void increaseProgress(){
+
+  void addstar(){
     setState(() {     //setState를 이용해서 상태변경을 알리고 UI를 다시 그려줌.
-      percentValue+=0.1;   //별표시를 클릭시에 혼잡도가 증가함.
-      if(percentValue>=1){
-        percentValue=0.1;
-
-
-
-      }
+      // percentValue+=0.1;   //별표시를 클릭시에 혼잡도가 증가함.
+      // if(percentValue>=1){
+      //   percentValue=0.1;
+      //
+      // }
     });
   }
   void initState() {
     // TODO: implement initState
-
     super.initState();
-
     getData();
-
   }
 
   @override
@@ -252,7 +265,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     ),
 
                     IconButton(
-                        onPressed: increaseProgress, icon: Icon(
+                        onPressed: addstar, icon: Icon(
 
 
                         Icons.star,
