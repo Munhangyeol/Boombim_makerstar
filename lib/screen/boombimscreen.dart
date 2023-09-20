@@ -124,7 +124,6 @@ class _BoombimScreenState extends State<BoombimScreen> {
            else if(percentValue>0.66){
               perColor=Color(0XFFFF2424);
 
-
             }
 
           }
