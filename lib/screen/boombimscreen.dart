@@ -11,7 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:boombim_makerstar/firebase_options.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-
 class BoombimScreen extends StatefulWidget {
   const BoombimScreen({Key? key}) : super(key: key);
 
