@@ -13,15 +13,16 @@ import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 class BoombimScreen extends StatefulWidget {
   const BoombimScreen({Key? key}) : super(key: key);
-
   @override
   _BoombimScreenState createState() => _BoombimScreenState();
+
 }
 
 class _BoombimScreenState extends State<BoombimScreen> {
-  int totalTableNumber=30;
-  int occupyTableNumber=3;
-  double percentValue=0.1;
+
+  int totalTableNumber=24;
+  int occupyTableNumber=0;
+  double percentValue=0;
   String phoneNumber="전화번호를 불러오는 중입니다!";
   String timeCurrentDay="영업시간을 불러오는 중입니다!";
   bool isVisible=false;
@@ -31,6 +32,7 @@ class _BoombimScreenState extends State<BoombimScreen> {
   String url3='aa';
   String caffeName="정보를 불러오는 중입니다!";
   String caffeAddress="카페 위치을 불러오는 중입니다!";
+  var dataList=[0,0,0,0];
   Color perColor=Color(0xFFFFCD4A);
 
   final DatabaseReference _database = FirebaseDatabase.instance.reference();
@@ -53,8 +55,8 @@ class _BoombimScreenState extends State<BoombimScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Size size = MediaQuery.of(context).size;
 
+Size size=MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child:SingleChildScrollView(
@@ -64,9 +66,164 @@ class _BoombimScreenState extends State<BoombimScreen> {
           child: Column(
             children: [
               _TopMenuPart(url1:this.url1,url2: this.url2,url3:this.url3),
+            /*  IconButton(onPressed: (){
+                setState(() {
+                  occupyTableNumber+=1;
+                  if(occupyTableNumber>=totalTableNumber){
+                    occupyTableNumber-=1;
+                  }
+                  percentValue=occupyTableNumber/totalTableNumber;
+                  print("DDD$occupyTableNumber");
+
+                });
+
+              }
+                  , icon: Icon(Icons.account_circle)),
+
+             */
+
               _MiddlePart(caffeName: caffeName, caffeAddress: caffeAddress),
-              _BottomPart(totalTableNumber: totalTableNumber, occupyTableNumber: occupyTableNumber, percentValue: percentValue, phoneNumber: phoneNumber,
-                  timeCurrentDay: timeCurrentDay,perColor:perColor),
+          Column(
+            children: [
+              Container(
+
+                width: size.width,
+                height: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width:size.width,
+                      height: size.height*0.04,
+
+                    ),
+                    Text("    혼잡도",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
+                        color: Colors.black,
+                        fontWeight:FontWeight.w600)),
+                    Container(
+                      width: size.width,
+                      height: size.height*0.02,
+                    ),
+                    LinearPercentIndicator(
+                      alignment: MainAxisAlignment.center,
+                      percent: percentValue,
+                      lineHeight: 5,
+                      backgroundColor: Color(0xffE4E4E4),
+                      progressColor:perColor,
+                      width: size.width*0.95,
+                    ),
+                    Container(
+                      width: size.width,
+                      height: size.height*0.01,
+                    ),
+                    Text("       $totalTableNumber개의 좌석중 $occupyTableNumber개 이용중",style:
+                    TextStyle(fontSize: 12,fontFamily: "IBM_Bold",
+                        color: Colors.grey,
+                        fontWeight:FontWeight.w600)),
+                    Container(
+                      width: size.width,
+                      height: size.height*0.01,
+                    ),
+                  ],
+                ),
+
+              ),
+              Container(
+                width:size.width,
+                height:120,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width:size.width,
+                        height: size.height*0.04,
+
+                      ),
+                      Text("    영업시간",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
+                          color: Colors.black,
+                          fontWeight:FontWeight.w600)),
+                      Container(
+                        width: size.width,
+                        height: size.height*0.005,
+                      ),
+                      Row(
+
+                          children:[
+                            Text("     $timeCurrentDay",style: TextStyle(fontWeight:
+                            FontWeight.w600,fontSize: 16,color: Color(0xff949494)),
+
+                            ),
+
+                            IconButton(onPressed: () {
+                              showModalBottomSheet(context: context,
+                                builder: (BuildContext context){
+                                  return Container(
+                                    height: 300, // 모달 높이 크기
+                                    margin: const EdgeInsets.only(
+                                      left: 25,
+                                      right: 25,
+                                      bottom: 40,
+                                    ), // 모달 좌우하단 여백 크기
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white, // 모달 배경색
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20), // 모달 전체 라운딩 처리
+                                      ),
+                                    ),
+                                    child:Center(
+
+                                      child:SingleChildScrollView(
+                                          child :DefaultTextStyle(
+                                            child:Text("월:    10AM ~ 6PM\n화:    10AM ~ 6PM\n"
+                                                "수:    10AM ~ 6PM\n목:    10AM ~ 7PM\n금:    10AM ~ 7PM\n토:    10AM ~ 8PM"
+                                                "\n일:    10AM ~ 8PM\n",
+
+
+                                            ),
+                                            style:TextStyle(color: Color(0xff949494) ,fontSize: 18,fontWeight: FontWeight.w500,
+                                                fontFamily: "IBM_Bold"),  )
+                                      ),
+                                    ),
+                                  );
+
+                                },
+                                backgroundColor: Colors.transparent,);
+                            }, icon: Icon(Icons.expand_more))
+                          ]
+
+
+
+                      ),
+
+                    ]
+                ),
+              ),
+              Container(
+                width: size.width,
+                height: size.height*0.02,
+              ),
+              Container(
+                width:size.width,
+                height:120,
+                child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:[
+                      Text("    전화번호",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
+                          color: Colors.black,
+                          fontWeight:FontWeight.w600)),
+                      Container(
+                        width: size.width,
+                        height: size.height*0.02,
+                      ),
+                      Text("     $phoneNumber",style: TextStyle(fontWeight:
+                      FontWeight.w600,fontSize: 16,color: Color(0xff949494)),
+
+                      ),
+                    ]
+                ),
+              ),
+            ],
+          ),
             ],
           ),
         ),
@@ -106,41 +263,119 @@ class _BoombimScreenState extends State<BoombimScreen> {
         timeCurrentDay=data["caffe_time"];
         caffeName=data["caffe_name"];
         caffeAddress=data["caffe_address"];
-
       });
     });
 // Realtime Database에서 percentValue를 가져오기
-    _database.child('DATA').onValue.listen((event) {
+    _database.child('DATA1').onValue.listen((event) {
       final value = event.snapshot.value as int?;
+
       if (value != null) {
+        dataList[0]=value;
         setState(() {
-          if (value != 1) {
-            occupyTableNumber-=1;
-            percentValue = occupyTableNumber/totalTableNumber;
-            if(percentValue>0.3&&percentValue<=0.66){
-              perColor=Color(0XFF4324FF);
-            }
-           else if(percentValue>0.66){
-              perColor=Color(0XFFFF2424);
+          occupyTableNumber=0;
+          for(int i=0;i<4;i++)
+            occupyTableNumber+=dataList[i];
+              if(value<0){
 
-            }
-
-          }
-          else{
-            occupyTableNumber+=1;
+                occupyTableNumber=0;
+              }
+              if(value>totalTableNumber){
+                occupyTableNumber=totalTableNumber;
+              }
             percentValue = occupyTableNumber/totalTableNumber;
-            if(percentValue>0.3&&percentValue<=0.66){
-              perColor=Color(0XFF4324FF);
-            }
-            else if(percentValue>0.66){
-              perColor=Color(0XFFFF2424);
-            }
+
+        });
+      }
+    });
+    _database.child('DATA2').onValue.listen((event) {
+      final value = event.snapshot.value as int?;
+      print("ddddd: $value");
+      if (value != null) {
+        dataList[1]=value;
+
+        setState(() {
+          occupyTableNumber=0;
+          for(int i=0;i<4;i++)
+            occupyTableNumber+=dataList[i];
+
+          if(value<0){
+            occupyTableNumber=0;
           }
+          if(value>totalTableNumber){
+            occupyTableNumber=totalTableNumber;
+          }
+          percentValue = occupyTableNumber/totalTableNumber;
+
+
+
+
         });
       }
     });
 
+    _database.child('DATA3').onValue.listen((event) {
+      final value = event.snapshot.value as int?;
+      print("ddddd: $value");
+      if (value != null) {
+        dataList[2]=value;
+
+        setState(() {
+          occupyTableNumber=0;
+          for(int i=0;i<4;i++)
+            occupyTableNumber+=dataList[i];
+          if(value<0){
+            occupyTableNumber=0;
+          }
+          if(value>totalTableNumber){
+            occupyTableNumber=totalTableNumber;
+          }
+          percentValue = occupyTableNumber/totalTableNumber;
+
+
+
+
+        });
+      }
+    });
+
+    _database.child('DATA4').onValue.listen((event) {
+      final value = event.snapshot.value as int?;
+      print("ddddd: $value");
+
+      if (value != null) {
+        dataList[3]=value;
+        setState(() {
+          occupyTableNumber=0;
+          for(int i=0;i<4;i++)
+            occupyTableNumber+=dataList[i];
+          if(value<0){
+            occupyTableNumber=0;
+
+
+          }
+          if(value>totalTableNumber){
+            occupyTableNumber=totalTableNumber;
+          }
+          percentValue = occupyTableNumber/totalTableNumber;
+
+
+
+
+        });
+      }
+    });
+
+
+
+
+
+
+
+
+
+
   }
+
 
 }
 void showToast(BuildContext context) {
@@ -189,7 +424,6 @@ class _TopMenuPart extends StatelessWidget{
     Size size=MediaQuery.of(context).size;
     // TODO: implement build
     return Container(
-
       width: size.width,
       height: size.height * 0.33,
       child: Stack(
@@ -201,7 +435,7 @@ class _TopMenuPart extends StatelessWidget{
               SizedBox(
                 width:size.width,
                 height: size.height*0.35,
-                child:Image.network("$url1",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
+                child:Image.network("$url2",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
                   return Center(
 
                     child: SizedBox(
@@ -209,7 +443,6 @@ class _TopMenuPart extends StatelessWidget{
                       width: size.width * 0.3,
                       child: Lottie.asset(
                           'assets/lottie/animation_2.json'),
-
                     ),
 
                   );
@@ -219,7 +452,7 @@ class _TopMenuPart extends StatelessWidget{
               SizedBox(
                   width:size.width,
                   height: size.height*0.35,
-                  child:Image.network("$url2",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
+                  child:Image.network("$url1",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
                     return Center(
 
                       child: SizedBox(
@@ -238,7 +471,6 @@ class _TopMenuPart extends StatelessWidget{
                   height: size.height*0.35,
                   child:Image.network("$url3",errorBuilder: (BuildContext context,Object exception, StackTrace? stackTrace) {
                     return Center(
-
                       child: SizedBox(
                         height: size.height * 0.4,
                         width: size.width * 0.3,
@@ -300,6 +532,7 @@ class _TopMenuPart extends StatelessWidget{
   }
 
 }
+
 class _MiddlePart extends StatelessWidget{
   String caffeName="정보를 불러오는 중입니다!";
   String caffeAddress="카페 위치을 불러오는 중입니다!";
@@ -312,7 +545,6 @@ class _MiddlePart extends StatelessWidget{
      children: [
        Container(
          height: 60,
-
          width: size.width,
          child:Row(
              mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -342,7 +574,10 @@ class _MiddlePart extends StatelessWidget{
                ),
 
                IconButton(
-                   onPressed: (){}, icon: Icon(
+                   onPressed: (){
+
+
+                     }, icon: Icon(
 
 
                    Icons.star,
@@ -401,7 +636,7 @@ class _MiddlePart extends StatelessWidget{
   }
 
 }
-class _BottomPart extends StatelessWidget{
+/*class _BottomPart extends StatelessWidget{
   int totalTableNumber=30;
   int occupyTableNumber=3;
   double percentValue=0.1;
@@ -415,144 +650,9 @@ class _BottomPart extends StatelessWidget{
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
     // TODO: implement build
-    return Column(
-      children: [
-        Container(
-
-          width: size.width,
-          height: 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width:size.width,
-                height: size.height*0.04,
-
-              ),
-              Text("    혼잡도",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
-                  color: Colors.black,
-                  fontWeight:FontWeight.w600)),
-              Container(
-                width: size.width,
-                height: size.height*0.02,
-              ),
-              LinearPercentIndicator(
-                alignment: MainAxisAlignment.center,
-                percent: percentValue,
-                lineHeight: 5,
-                backgroundColor: Color(0xffE4E4E4),
-                progressColor:perColor,
-                width: size.width*0.95,
-              ),
-              Container(
-                width: size.width,
-                height: size.height*0.01,
-              ),
-
-
-
-            ],
-          ),
-
-        ),
-        Container(
-          width:size.width,
-          height:120,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width:size.width,
-                  height: size.height*0.04,
-
-                ),
-                Text("    영업시간",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
-                    color: Colors.black,
-                    fontWeight:FontWeight.w600)),
-                Container(
-                  width: size.width,
-                  height: size.height*0.005,
-                ),
-                Row(
-
-                    children:[
-                      Text("     $timeCurrentDay",style: TextStyle(fontWeight:
-                      FontWeight.w600,fontSize: 16,color: Color(0xff949494)),
-
-                      ),
-
-                      IconButton(onPressed: () {
-                        showModalBottomSheet(context: context,
-                          builder: (BuildContext context){
-                            return Container(
-                              height: 300, // 모달 높이 크기
-                              margin: const EdgeInsets.only(
-                                left: 25,
-                                right: 25,
-                                bottom: 40,
-                              ), // 모달 좌우하단 여백 크기
-                              decoration: const BoxDecoration(
-                                color: Colors.white, // 모달 배경색
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(20), // 모달 전체 라운딩 처리
-                                ),
-                              ),
-                              child:Center(
-
-                                child:SingleChildScrollView(
-                                    child :DefaultTextStyle(
-                                      child:Text("월:    10AM ~ 6PM\n화:    10AM ~ 6PM\n"
-                                          "수:    10AM ~ 6PM\n목:    10AM ~ 7PM\n금:    10AM ~ 7PM\n토:    10AM ~ 8PM"
-                                          "\n일:    10AM ~ 8PM\n",
-
-
-                                      ),
-                                      style:TextStyle(color: Color(0xff949494) ,fontSize: 18,fontWeight: FontWeight.w500,
-                                          fontFamily: "IBM_Bold"),  )
-                                ),
-                              ),
-                            );
-
-                          },
-                          backgroundColor: Colors.transparent,);
-                      }, icon: Icon(Icons.expand_more))
-                    ]
-
-
-
-                ),
-
-              ]
-          ),
-        ),
-        Container(
-          width: size.width,
-          height: size.height*0.02,
-        ),
-        Container(
-          width:size.width,
-          height:120,
-          child:Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:[
-                Text("    전화번호",style: TextStyle(fontSize: 19,fontFamily: "IBM_Bold",
-                    color: Colors.black,
-                    fontWeight:FontWeight.w600)),
-                Container(
-                  width: size.width,
-                  height: size.height*0.02,
-                ),
-                Text("     $phoneNumber",style: TextStyle(fontWeight:
-                FontWeight.w600,fontSize: 16,color: Color(0xff949494)),
-
-                ),
-              ]
-          ),
-        ),
-      ],
-    );
+    return
   }
   
-}
+}*/
 
 
