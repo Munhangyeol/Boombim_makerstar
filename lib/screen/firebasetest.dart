@@ -7,7 +7,6 @@ class FirebaseTest extends StatefulWidget{
   const FirebaseTest ({Key?key}):super(key:key);
   @override
   _FirebaseTest createState()=>_FirebaseTest();
-  
 }
 class _FirebaseTest extends State<FirebaseTest>{
   final firestore=FirebaseFirestore.instance;
