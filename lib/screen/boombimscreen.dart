@@ -20,7 +20,7 @@ class BoombimScreen extends StatefulWidget {
 
 class _BoombimScreenState extends State<BoombimScreen> {
 
-  int totalTableNumber=24;
+  int totalTableNumber=20;
   int occupyTableNumber=0;
   double percentValue=0;
   String phoneNumber="전화번호를 불러오는 중입니다!";
@@ -116,14 +116,18 @@ Size size=MediaQuery.of(context).size;
                       width: size.width,
                       height: size.height*0.01,
                     ),
-                    Text("       $totalTableNumber개의 좌석중 $occupyTableNumber개 이용중",style:
+                    Text("       $totalTableNumber개의 테이블중 $occupyTableNumber개 이용중",style:
                     TextStyle(fontSize: 12,fontFamily: "IBM_Bold",
                         color: Colors.grey,
                         fontWeight:FontWeight.w600)),
                     Container(
                       width: size.width,
-                      height: size.height*0.01,
+                      height: size.height*0.007,
                     ),
+                    Text("       제주몰빵의 1인테이블과 야외테이블은 제외하였습니다.",style:
+                    TextStyle(fontSize: 10,fontFamily: "IBM_Bold",
+                        color: Colors.grey,
+                        fontWeight:FontWeight.w600)),
                   ],
                 ),
 
@@ -174,9 +178,9 @@ Size size=MediaQuery.of(context).size;
 
                                       child:SingleChildScrollView(
                                           child :DefaultTextStyle(
-                                            child:Text("월:    10AM ~ 6PM\n화:    10AM ~ 6PM\n"
-                                                "수:    10AM ~ 6PM\n목:    10AM ~ 7PM\n금:    10AM ~ 7PM\n토:    10AM ~ 8PM"
-                                                "\n일:    10AM ~ 8PM\n",
+                                            child:Text("월:    8:30AM ~ 8PM\n화:    8:30AM ~ 8PM\n"
+                                                "수:    8:30AM ~ 8PM\n목:    8:30AM ~ 8PM\n금:    8:30AM ~ 8PM\n토:    10AM ~ 9PM"
+                                                "\n일:    10AM ~ 9PM\n",
 
 
                                             ),
@@ -190,9 +194,6 @@ Size size=MediaQuery.of(context).size;
                                 backgroundColor: Colors.transparent,);
                             }, icon: Icon(Icons.expand_more))
                           ]
-
-
-
                       ),
 
                     ]
@@ -276,7 +277,6 @@ Size size=MediaQuery.of(context).size;
           for(int i=0;i<4;i++)
             occupyTableNumber+=dataList[i];
               if(value<0){
-
                 occupyTableNumber=0;
               }
               if(value>totalTableNumber){

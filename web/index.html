@@ -40,6 +40,33 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOH5g_hgpPl1vljZ_J2C_1HZulUaDlFMM",
+      authDomain: "boombim-makerstar.firebaseapp.com",
+      databaseURL: "https://boombim-makerstar-default-rtdb.firebaseio.com",
+      projectId: "boombim-makerstar",
+      storageBucket: "boombim-makerstar.appspot.com",
+      messagingSenderId: "978588878352",
+      appId: "1:978588878352:web:5db6dd61963502e50a2c95",
+      measurementId: "G-C95C02NXG4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+
+
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js

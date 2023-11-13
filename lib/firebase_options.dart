@@ -49,6 +49,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '978588878352',
     projectId: 'boombim-makerstar',
     authDomain: 'boombim-makerstar.firebaseapp.com',
+    databaseURL: 'https://boombim-makerstar-default-rtdb.firebaseio.com',
+
     storageBucket: 'boombim-makerstar.appspot.com',
     measurementId: 'G-0RQB23GCG2',
   );
